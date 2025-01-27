@@ -69,7 +69,7 @@ app.layout = html.Div(
                     html.Div(
                         children=[
                             html.P(
-                                "Set your custom filters to analyze your sales",
+                                "Set custom filters to analyze your sales",
                                 style={
                                     "color": "lightgrey",
                                     "fontSize": "20px",
@@ -410,6 +410,7 @@ app.layout = html.Div(
                                     "paddingBottom": "26px",
                                     "backgroundColor": "#272950",
                                     "borderRadius": "10px",
+                                    "height": "260px",
                                 },
                             ),
                         ],
@@ -426,6 +427,7 @@ app.layout = html.Div(
         "backgroundColor": "#151138",
         "padding": "0",
         "margin": "0",
+        "minHeight": "100vh",
     },
 )
 
