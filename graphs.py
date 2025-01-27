@@ -1,5 +1,4 @@
 import plotly.express as px
-from data_processing import customers
 import pandas as pd
 
 
@@ -9,12 +8,23 @@ def get_all_graphs(data):
     ##################################### Sales Graphs #####################################
     ########################################################################################
 
-    data.loc[:, "Month"] = data["Order.Date"].dt.to_period("M").astype(str)
-    sales_by_month = data.groupby("Month").agg({"Sales": "sum"}).reset_index()
+    # Check the date range to determine aggregation level
+    if (data["Order.Date"].max() - data["Order.Date"].min()).days <= 31:
+        # Aggregate by day if the date range is within a month
+        data = data.copy()
+        data.loc[:, "Day"] = data["Order.Date"].dt.to_period("D").astype(str)
+        sales_by_time = data.groupby("Day").agg({"Sales": "sum"}).reset_index()
+        x_column = "Day"
+    else:
+        # Aggregate by month otherwise
+        data.loc[:, "Month"] = data["Order.Date"].dt.to_period("M").astype(str)
+        sales_by_time = data.groupby("Month").agg({"Sales": "sum"}).reset_index()
+        x_column = "Month"
 
+    # Plot aggregated sales by month
     sales_over_time_fig = px.line(
-        sales_by_month,
-        x="Month",
+        sales_by_time,
+        x=x_column,
         y="Sales",
         labels={"Month": "Month", "Sales": "Total Sales"},
     )
@@ -28,6 +38,7 @@ def get_all_graphs(data):
             title=None,
             showgrid=True,
             gridcolor="lightgray",
+            zeroline=False,
         ),
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
@@ -40,13 +51,24 @@ def get_all_graphs(data):
     ##################################### Profit Graphs ####################################
     ########################################################################################
 
-    profit_by_month = data.groupby("Month").agg({"Profit": "sum"}).reset_index()
+    # Check the date range to determine aggregation level
+    if (data["Order.Date"].max() - data["Order.Date"].min()).days <= 31:
+        # Aggregate by day if the date range is within a month
+        data = data.copy()
+        data.loc[:, "Day"] = data["Order.Date"].dt.to_period("D").astype(str)
+        profit_by_time = data.groupby("Day").agg({"Profit": "sum"}).reset_index()
+        x_column = "Day"
+    else:
+        # Aggregate by month otherwise
+        data.loc[:, "Month"] = data["Order.Date"].dt.to_period("M").astype(str)
+        profit_by_time = data.groupby("Month").agg({"Profit": "sum"}).reset_index()
+        x_column = "Month"
 
     profit_over_time_fig = px.line(
-        profit_by_month,
-        x="Month",
+        profit_by_time,
+        x=x_column,
         y="Profit",
-        labels={"Month": "Month", "Profit": "Total Profit"},
+        labels={x_column: "Date", "Profit": "Total Profit"},
     )
     profit_over_time_fig.update_layout(
         xaxis=dict(
