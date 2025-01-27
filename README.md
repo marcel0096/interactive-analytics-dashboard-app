@@ -1,3 +1,3 @@
 # Interactive analytics dashboard app
 
-![image](https://github.com/user-attachments/assets/3ffb0763-1593-4c3e-8eef-f23945bfd944)
+![image](https://github.com/user-attachments/assets/f1afcc15-384b-497a-8cf5-6cb76d3abb6e)
