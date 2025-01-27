@@ -1,13 +1,18 @@
 import pandas as pd
+import os
 
 ########################################################################################
 #################################### Load datasets #####################################
 ########################################################################################
 
-customers = pd.read_csv("data/customers.csv")
-orders = pd.read_csv("data/orders.csv")
-sales = pd.read_csv("data/sales.csv")
-products = pd.read_csv("data/products.csv")
+base_dir = os.path.dirname(__file__)
+data_dir = os.path.join(base_dir, "data")
+
+# Load files
+customers = pd.read_csv(os.path.join(data_dir, "customers.csv"))
+orders = pd.read_csv(os.path.join(data_dir, "orders.csv"))
+sales = pd.read_csv(os.path.join(data_dir, "sales.csv"))
+products = pd.read_csv(os.path.join(data_dir, "products.csv"))
 
 
 ########################################################################################
